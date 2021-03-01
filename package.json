@@ -7,7 +7,8 @@
     "test": "echo \"Tests complete\"",
     "pretest": "eslint ./src --fix",
     "start": "node ./src/server.js",
-    "nodemon": "nodemon ./src/server.js -e html,js,css"
+    "nodemon": "nodemon ./src/server.js -e html,js,css",
+    "chromeinspect": "echo \"Now in DEBUG mode. Head to 'edge://inspect'\" & node --inspect ./src/server.js"
   },
   "repository": {
     "type": "git",
@@ -25,5 +26,8 @@
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.22.1",
     "nodemon": "^2.0.7"
+  },
+  "dependencies": {
+    "xml": "^1.0.1"
   }
 }
