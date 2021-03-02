@@ -32,8 +32,9 @@
           appTitle: "Places To Eat",
           pageTitle: "Show All Places",
           api: {
-            getAllPlaces: "http://localhost:3000/get-all-places",
-            getPlace: "http://localhost:3000/get-place"
+            base: "",
+            getAllPlaces: "/get-all-places",
+            getPlace: "/get-place"
           },
           places: {},
           place: {},
@@ -41,7 +42,7 @@
         },
         methods:{
         getAllPlaces(){
-          fetch(this.api.getAllPlaces)
+          fetch(`${this.api.base}${this.api.getAllPlaces}`)
             .then(response => {
             if(!response.ok){
               throw Error(`ERROR: ${response.statusText}`);
@@ -54,7 +55,7 @@
             });
           }, // end getAllPlaces
           getPlace(placeID){
-            let url = `${this.api.getPlace}?placeID=${placeID}`
+            let url = `${this.api.base}${this.api.getPlace}?placeID=${placeID}`
             fetch(url)
               .then(response => {
               if(!response.ok){
@@ -73,6 +74,7 @@
         }, // end methods
         created() {
           this.getAllPlaces();
+          this.api.base = `http://${window.location.host}`;
         }
       });
     </script>
