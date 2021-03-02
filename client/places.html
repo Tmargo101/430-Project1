@@ -12,30 +12,32 @@
   </head>
   <body>
     <div id="app">
-      <nav-bar v-bind:appTitle="appTitle" v-bind:currentPage="pageTitle"></nav-bar>      
-      <h1 class="display-4 center">{{pageTitle}}</h1>
-      <div class="container row">
-        <div class="col-9">
-          <place-list v-bind:places="places" v-bind:title="pageTitle"></place-list>
+      <nav-bar :title="appTitle"></nav-bar>     
+      <div class="container mt-5">
+        <h1 class="display-4">{{pageTitle}}</h1>
+        <div v-if='!showPlace' class="col-12">
+          <place-list :places="places" :title="pageTitle" v-on:get-place="getPlace($event); "></place-list>
         </div>
-        <place-info></place-info>
+        <div v-if='showPlace' class="col-12">
+          <button @click='showPlace = false; pageTitle = "Show All Places"'>Close</button>
+          <place-info v-bind:place="place"></place-info>
+        </div>
       </div>
-
     </div>
-    
     <script src="/src/vueComponents.js"></script>
     <script>
       const app = new Vue({
         el: '#app',
         data: {
-          appTitle: "Places to Eat",
-          pageTitle: "Show all places",
+          appTitle: "Places To Eat",
+          pageTitle: "Show All Places",
           api: {
             getAllPlaces: "http://localhost:3000/get-all-places",
             getPlace: "http://localhost:3000/get-place"
           },
           places: {},
           place: {},
+          showPlace: false,
         },
         methods:{
         getAllPlaces(){
@@ -51,8 +53,8 @@
               this.places = json;
             });
           }, // end getAllPlaces
-          getPlace(){
-            let url = `${this.api.getPlace}?placeID=1`
+          getPlace(placeID){
+            let url = `${this.api.getPlace}?placeID=${placeID}`
             fetch(url)
               .then(response => {
               if(!response.ok){
@@ -62,9 +64,11 @@
               })
               .then(json => {	
                 console.log(json);
-                this.places = json;
+                this.place = json;
+                this.showPlace = true;
+                this.pageTitle = "Place"
               });
-            } // end getAllPlaces
+            } // end getPlace
   
         }, // end methods
         created() {

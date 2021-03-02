@@ -12,6 +12,8 @@ const adminPage = fs.readFileSync(`${__dirname}/../client/admin.html`);
 const vueComponents = fs.readFileSync(`${__dirname}/../client/src/vue-components.js`);
 const mainJS = fs.readFileSync(`${__dirname}/../client/src/main.js`);
 
+const icon = fs.readFileSync(`${__dirname}/../client/icon.png`);
+
 const getHomePage = (request, response) => {
   response.writeHead(200, { 'Content-Type': 'text/html' });
   response.write(homePage);
@@ -66,6 +68,12 @@ const getErrorPage = (request, response) => {
   response.end();
 };
 
+const getIcon = (request, response) => {
+  response.writeHead(200, { 'Content-Type': 'image/png' });
+  response.write(icon);
+  response.end();
+};
+
 module.exports = {
   getHomePage,
   getPlacesPage,
@@ -76,4 +84,5 @@ module.exports = {
   getErrorPage,
   getVueComponents,
   getMainJS,
+  getIcon,
 };

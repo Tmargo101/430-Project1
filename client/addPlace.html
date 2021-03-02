@@ -12,9 +12,9 @@
   </head>
   <body>
     <div id="app">
-      <nav-bar title="Places"></nav-bar>
-      <div class="container">
-        <h1 class="display-4 center">{{pageTitle}}</h1>
+      <nav-bar :title="appTitle"></nav-bar>
+      <div class="container mt-5">
+        <h1 class="display-4">{{pageTitle}}</h1>
       </div>
       <div class="container">
         <form>
@@ -29,6 +29,8 @@
           
           <label for="notes">Notes:</label><br>
           <textarea id="notes" name="notes" rows="4" cols="50"></textarea>
+          <br>
+          <input type="submit">
         </form>
       </div>
 

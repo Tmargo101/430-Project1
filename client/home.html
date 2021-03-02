@@ -12,13 +12,16 @@
   </head>
   <body>
     <div id="app">
-      <nav-bar title="Places"></nav-bar>
-      <h1 class="display-4">{{appTitle}}</h1>
-      <p>This is a test</p>
-      <hr>
-      <label for='name'>Name:</label>
-      <input id='name' v-model="username">
-      <p>(Will be automatically added to any suggestions that you make)</p>
+      <nav-bar :title="appTitle"></nav-bar>
+      <div class="container mt-5">
+        <h1 class="display-1">{{appTitle}}</h1>
+        <h1 class="display-4">{{pageTitle}}</h1>
+        <p>This is a test</p>
+        <hr>
+        <label for='name'>Name:</label>
+        <input id='name' v-model="username">
+        <p>(Will be automatically added to any suggestions that you make)</p>
+      </div>
     </div>
       
     <script src="/src/vueComponents.js"></script>
@@ -27,8 +30,8 @@
         el: '#app',
         data: {
           username: '',
-          appTitle: "Places to Eat",
-          pageTitle: "About this app",
+          appTitle: 'Places To Eat',
+          pageTitle: 'About this app',
           api: {
             getAllPlaces: "http://localhost:3000/get-all-places",
             getPlace: "http://localhost:3000/get-place"

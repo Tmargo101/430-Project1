@@ -3,6 +3,7 @@ const xml = require('xml');
 // Where data is stored
 const places = [
   {
+    id: 0,
     name: 'Tullys',
     address: '1225 W Jefferson Rd, Rochester, NY',
     reccomendedBy: 'Tom',
@@ -10,6 +11,7 @@ const places = [
     been: true,
   },
   {
+    id: 1,
     name: 'Han Noodle Bar',
     address: '687 Monroe Ave, Rochester, NY 14607',
     reccomendedBy: 'Justin',

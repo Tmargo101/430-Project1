@@ -12,9 +12,9 @@
   </head>
   <body>
     <div id="app">
-      <nav-bar title="Places"></nav-bar>
-      <h1 class="display-4">Admin</h1>
-      <div class="container">
+      <nav-bar :title="appTitle"></nav-bar>
+      <div class="container mt-5">
+        <h1 class="display-4">Admin</h1>
         <place-list v-bind:places="places" v-bind:title="pageTitle"></place-list>
       </div>
 

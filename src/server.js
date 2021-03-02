@@ -18,6 +18,7 @@ const urlStruct = {
     '/statusPage.html': client.getStatusPage,
     '/src/vueComponents.js': client.getVueComponents,
     '/src/main.js': client.getMainJS,
+    '/icon.png': client.getIcon,
     notFound: client.getErrorPage,
     // API Endpoints
     '/get-all-places': responses.getAllPlaces,
