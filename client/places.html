@@ -50,7 +50,6 @@
             return response.json();
             })
             .then(json => {	
-              console.log(json);
               this.places = json;
             });
           }, // end getAllPlaces
@@ -64,7 +63,6 @@
               return response.json();
               })
               .then(json => {	
-                console.log(json);
                 this.place = json;
                 this.showPlace = true;
                 this.pageTitle = "Place"
