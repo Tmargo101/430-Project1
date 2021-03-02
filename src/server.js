@@ -31,28 +31,28 @@ const urlStruct = {
   },
 };
 
-// const handlePost = (request, response, parsedUrl) => {
-//   if (parsedUrl.pathname === '/add-user') {
-//     const body = [];
-//
-//     // https://nodejs.org/api/http.html
-//     request.on('error', (err) => {
-//       console.dir(err);
-//       response.statusCode = 400;
-//       response.end();
-//     });
-//
-//     request.on('data', (chunk) => {
-//       body.push(chunk);
-//     });
-//
-//     request.on('end', () => {
-//       const bodyString = Buffer.concat(body).toString();
-//       const bodyParams = query.parse(bodyString); // turn into an object with .name and .age
-//       jsonHandler.addUser(request, response, bodyParams);
-//     });
-//   }
-// };
+const handlePost = (request, response, parsedUrl) => {
+  if (parsedUrl.pathname === '/add-place') {
+    const body = [];
+
+    // https://nodejs.org/api/http.html
+    request.on('error', (err) => {
+      console.dir(err);
+      response.statusCode = 400;
+      response.end();
+    });
+
+    request.on('data', (chunk) => {
+      body.push(chunk);
+    });
+
+    request.on('end', () => {
+      const bodyString = Buffer.concat(body).toString();
+      const bodyParams = query.parse(bodyString); // turn into an object with .name and .age
+      responses.addPlace(request, response, bodyParams);
+    });
+  }
+};
 
 const onRequest = (request, response) => {
   const parsedUrl = url.parse(request.url);
@@ -63,6 +63,7 @@ const onRequest = (request, response) => {
 
   if (request.method === 'POST') {
     // handle POST
+    handlePost(request, response, parsedUrl);
     return; // bail out of function
   }
 

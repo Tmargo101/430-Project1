@@ -20,13 +20,6 @@ const places = [
   },
 ];
 
-// const users = [
-//   {
-//     name: 'tom',
-//     id: 0,
-//   },
-// ];
-
 // Source: https://stackoverflow.com/questions/2219526/how-many-bytes-in-a-javascript-string/29955838
 // Refactored to an arrow function by ACJ
 const getBinarySize = (string) => Buffer.byteLength(string, 'utf8');
@@ -168,10 +161,46 @@ const notFound = (request, response) => {
   return respondJSON(request, response, 404, jsonResponseObject);
 };
 
+const addPlace = (request, response, bodyParams) => {
+  let statusCode = 404;
+  let responseObject = {
+    error: "NOT_ADDED",
+    description: "Place was not added.  Please try again."
+  };
+  console.log(bodyParams);
+  
+  let newPlaceObject = {};
+  // Add name to object
+  if (bodyParams.name) {
+    newPlaceObject.name = bodyParams.name;
+  } else {
+    console.log("No name");
+  }
+  
+  if (bodyParams.address) {
+    newPlaceObject.address = bodyParams.address;
+  } else {
+    console.log("No address");
+  }
+  
+  // Find number of keys
+  // Object.keys(places).length
+  
+  // Add to array (change when I refactor to an object)
+  places.push(newPlaceObject);
+  statusCode = 201;
+  responseObject = {
+    status: "Success",
+    message: "Object was added successfully",
+  };
+  respondJSON(request, response, statusCode, responseObject);
+}
+
 module.exports = {
   getAllPlaces,
   getAllPlacesHeaders,
   getPlace,
   getPlaceHeaders,
   notFound,
+  addPlace,
 };
