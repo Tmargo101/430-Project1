@@ -74,7 +74,7 @@
         }, // end methods
         created() {
           this.getAllPlaces();
-          this.api.base = `http://${window.location.host}`;
+          this.api.base = window.location.origin;
         }
       });
     </script>
