@@ -56,10 +56,42 @@ Vue.component('place-list-item', {
     <td>{{place.address}}</td>
     <td>{{place.reccomendedBy}}</td>
     <td>{{place.notes}}</td>
-    <td><button v-bind:value='place.id' v-on:click="$emit('get-place', $event.target.value)">More Info</button></td>
+    <td><button class='btn btn-secondary' v-bind:value='place.id' v-on:click="$emit('get-place', $event.target.value)">More Info</button></td>
   </tr>
   `,
 });
+
+Vue.component('admin-place-list', {
+  props: ['places'],
+  template: `
+  <div>
+  <table class="table table-striped">
+    <thead>
+      <th>Place Name</th>
+      <th>Address</th>
+      <th>Reccomended by</th>
+      <th>Notes</th>
+      <th></th>
+    </thead>
+    <tr is="admin-place-list-item" v-for="(place,index) in places" v-bind:place="place" v-bind:index="index" v-on:get-place="$emit('get-place', $event)"></tr>
+  </table>
+  </div>
+  `,
+});
+
+Vue.component('admin-place-list-item', {
+  props: ['place'],
+  template: `
+  <tr>
+    <td>{{place.name}}</td>
+    <td>{{place.address}}</td>
+    <td>{{place.reccomendedBy}}</td>
+    <td>{{place.notes}}</td>
+    <td><button class='btn btn-danger' v-bind:value='place.id' v-on:click="$emit('delete-place', $event.target.value)">Delete Place</button></td>
+  </tr>
+  `,
+});
+
 
 Vue.component('place-info', {
   props: ['place'],
@@ -84,7 +116,9 @@ Vue.component('place-info', {
         <h2>{{place.reccomendedBy}}</h2>
       </div>
     </div>
-    <p>Notes: {{place.notes}}</p>
+    <p>Notes:</p>
+    <textarea class='form-control'> {{place.notes}}</textarea>
+    <button class='btn btn-primary mt-3' v-bind:value='place.id' @click='$emit("update-place", $event.target.value)'>Save Changes</button>
   </div>
   `,
 });

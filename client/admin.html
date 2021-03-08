@@ -15,7 +15,7 @@
       <nav-bar :title="appTitle"></nav-bar>
       <div class="container mt-5">
         <h1 class="display-4 mb-5">Admin</h1>
-        <place-list v-bind:places="places" v-bind:title="pageTitle"></place-list>
+        <admin-place-list v-bind:places="places" v-bind:title="pageTitle"></place-list>
       </div>
 
     </div>
@@ -30,7 +30,8 @@
           api: {
             base: "",
             getAllPlaces: "/get-all-places",
-            getPlace: "/get-place"
+            getPlace: "/get-place",
+            deletePlace: "/delete-place",
           },
           places: {},
         },
@@ -46,7 +47,15 @@
             .then(json => {	
               this.places = json;
             });
-          } // end getAllPlaces
+          }, // end getAllPlaces
+          deletePlace(placeID) {
+            const newDeleteRequest = {
+              method: "DELETE",
+              body: placeID
+            }
+            fetch(`${this.api.base}${this.api.deletePlace}`, newDeleteRequest)
+              .then
+          }
         }, // end methods
         created() {
           this.api.base = window.location.origin;

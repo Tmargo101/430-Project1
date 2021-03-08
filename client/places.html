@@ -19,8 +19,8 @@
           <place-list :places="places" :title="pageTitle" v-on:get-place="getPlace($event); "></place-list>
         </div>
         <div v-if='showPlace' class="col-12">
-          <button @click='showPlace = false; pageTitle = "Show All Places"'>Close</button>
-          <place-info v-bind:place="place"></place-info>
+          <button class='btn btn-dark' @click='showPlace = false; pageTitle = "Show All Places"' class="close" data-dismiss="alert" aria-label="close">&times;</button>
+          <place-info v-bind:place="place" v-on:update-place="updatePlace($event);"></place-info>
         </div>
       </div>
     </div>
@@ -34,7 +34,8 @@
           api: {
             base: "",
             getAllPlaces: "/get-all-places",
-            getPlace: "/get-place"
+            getPlace: "/get-place",
+            updatePlace: "/update-place",
           },
           places: {},
           place: {},
@@ -68,8 +69,11 @@
                 this.showPlace = true;
                 this.pageTitle = "Place"
               });
-            } // end getPlace
-  
+            }, // end getPlace
+            updatePlace(placeID) {
+              let url = `${this.api.base}${this.api.updatePlace}?placeID=${placeID}`;
+              console.log(url);
+            },
         }, // end methods
         created() {
           this.api.base = window.location.origin;

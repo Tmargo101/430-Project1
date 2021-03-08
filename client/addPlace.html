@@ -18,18 +18,18 @@
       </div>
       <div class="container">
           <label for="placename">Place name:</label><br>
-          <input v-model="newPlace.name" type="text" id="placename" name="placename"><br>
+          <input class="form-control form-control-lg" v-model="newPlace.name" type="text" id="placename" name="placename"><br>
           
           <label for="address">Address:</label><br>
-          <input v-model="newPlace.address" type="text" id="address" name="address"><br>
+          <input class="form-control" v-model="newPlace.address" type="text" id="address" name="address"><br>
           
           <label for="reccomendedby">Recommended by:</label><br>
-          <input v-model="newPlace.reccomendedBy" type="text" id="reccomendedby" name="reccomendedby" v-bind:placeholder="username"><br>
+          <input class="form-control" v-model="newPlace.reccomendedBy" type="text" id="reccomendedby" name="reccomendedby" v-bind:placeholder="username"><br>
           
           <label for="notes">Notes:</label><br>
-          <textarea v-model="newPlace.notes" id="notes" name="notes" rows="4" cols="50"></textarea>
+          <textarea class="form-control" v-model="newPlace.notes" id="notes" name="notes" rows="6" cols="50"></textarea>
           <br>
-          <button @click="submitNewPlace">Submit</button>
+          <button class='btn btn-primary btn-lg' @click="submitNewPlace">Submit</button>
           <div v-if="response.showSuccess" class="alert alert-success alert-dismissible">
             <button href="#" class="close" data-dismiss="alert" aria-label="close" @click="response.showSuccess = false">&times;</button>
             <strong>Success</strong>
@@ -113,6 +113,7 @@
             this.newPlace.address = "";
             this.newPlace.notes = "";
           },
+
         }, // end methods
         created() {
           this.api.base = window.location.origin;
