@@ -48,7 +48,7 @@ const handlePost = (request, response, parsedUrl) => {
 
     request.on('end', () => {
       const bodyString = Buffer.concat(body).toString();
-      const bodyParams = query.parse(bodyString);
+      // const bodyParams = query.parse(bodyString);
       responses.addPlace(request, response, JSON.parse(bodyString));
     });
   }
