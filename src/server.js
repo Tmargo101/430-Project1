@@ -48,8 +48,8 @@ const handlePost = (request, response, parsedUrl) => {
 
     request.on('end', () => {
       const bodyString = Buffer.concat(body).toString();
-      const bodyParams = query.parse(bodyString); // turn into an object with .name and .age
-      responses.addPlace(request, response, bodyParams);
+      const bodyParams = query.parse(bodyString);
+      responses.addPlace(request, response, JSON.parse(bodyString));
     });
   }
 };

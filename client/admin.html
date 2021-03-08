@@ -25,7 +25,7 @@
       const app = new Vue({
         el: '#app',
         data: {
-          appTitle: "Places to Eat",
+          appTitle: "Places To Eat",
           pageTitle: "Admin",
           api: {
             base: "",
@@ -51,6 +51,9 @@
         created() {
           this.api.base = window.location.origin;
           this.getAllPlaces();
+        },
+        submitPost() {
+          
         }
       });
     </script>

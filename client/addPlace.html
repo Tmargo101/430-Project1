@@ -17,22 +17,24 @@
         <h1 class="display-4 mb-5">{{pageTitle}}</h1>
       </div>
       <div class="container">
-        <form>
           <label for="placename">Place name:</label><br>
-          <input type="text" id="placename" name="placename"><br>
+          <input v-model="newPlace.name" type="text" id="placename" name="placename"><br>
           
           <label for="address">Address:</label><br>
-          <input type="text" id="address" name="address"><br>
+          <input v-model="newPlace.address" type="text" id="address" name="address"><br>
           
           <label for="reccomendedby">Recommended by:</label><br>
-          <input type="text" id="reccomendedby" name="reccomendedby" v-bind:placeholder="username"><br>
+          <input v-model="newPlace.reccomendedBy" type="text" id="reccomendedby" name="reccomendedby" v-bind:placeholder="username"><br>
           
           <label for="notes">Notes:</label><br>
-          <textarea id="notes" name="notes" rows="4" cols="50"></textarea>
+          <textarea v-model="newPlace.notes" id="notes" name="notes" rows="4" cols="50"></textarea>
           <br>
-          <input type="submit">
-        </form>
+          <button @click="submitNewPlace">Submit</button>
+          <div v-if="response.showSuccess" class="alert alert-success">
+            <strong>Success</strong>
+          </div>
       </div>
+      
 
     </div>
       
@@ -41,14 +43,27 @@
       const app = new Vue({
         el: '#app',
         data: {
-          appTitle: "Places to Eat",
+          appTitle: "Places To Eat",
           pageTitle: "Add a new Place",
           username: "",
           api: {
             getAllPlaces: "http://localhost:3000/get-all-places",
-            getPlace: "http://localhost:3000/get-place"
+            getPlace: "http://localhost:3000/get-place",
+            submitNewPlace: "http://localhost:3000/add-place",
           },
           places: {},
+          name: "",
+          newPlace: {
+            name: "",
+            address: "",
+            reccomendedBy: "",
+            notes: "",
+          },
+          response: {
+            status: "",
+            message: "",
+            showSuccess: false,
+          }
         },
         methods:{
         getAllPlaces(){
@@ -62,7 +77,30 @@
             .then(json => {	
               this.places = json;
             });
-          } // end getAllPlaces
+          }, // end getAllPlaces
+          async submitNewPlace() {
+            const newPlaceObject = {
+              name: this.newPlace.name,
+              address: this.newPlace.address,
+              reccomendedBy: this.newPlace.reccomendedBy,
+              notes: this.newPlace.notes,
+            };
+            const newPostRequest = {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(newPlaceObject),
+            };
+            const response = await fetch(this.api.submitNewPlace, newPostRequest);
+            const responseData = await response.json();
+            console.log(responseData);
+            this.response.status = responseData.status;
+            this.response.status = responseData.message;
+            this.response.showSuccess = true;
+            
+            this.newPlace.name = "";
+            this.newPlace.address = "";
+            this.newPlace.notes = "";
+          },
         }, // end methods
         created() {
           this.getAllPlaces();
@@ -70,15 +108,15 @@
         mounted() {
           if(localStorage.username) {
             this.username = localStorage.username;
+            this.newPlace.reccomendedBy = localStorage.username;
           }
         },
         watch:{
           username(newUsername) {
             localStorage.username = newUsername;
           }
-        }
+        },
       });
     </script>
-      
   </body>
 </html>

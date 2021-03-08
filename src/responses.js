@@ -164,37 +164,45 @@ const notFound = (request, response) => {
 const addPlace = (request, response, bodyParams) => {
   let statusCode = 404;
   let responseObject = {
-    error: "NOT_ADDED",
-    description: "Place was not added.  Please try again."
+    error: 'NOT_ADDED',
+    description: 'Place was not added.  Please try again.',
   };
   console.log(bodyParams);
-  
-  let newPlaceObject = {};
+  const newPlaceObject = {};
   // Add name to object
   if (bodyParams.name) {
     newPlaceObject.name = bodyParams.name;
   } else {
-    console.log("No name");
+    // No name
+    responseObject.error = 'NO_NAME';
   }
-  
   if (bodyParams.address) {
     newPlaceObject.address = bodyParams.address;
   } else {
-    console.log("No address");
+    responseObject.error = 'NO_ADDRESS';
   }
-  
+  if (bodyParams.reccomendedBy) {
+    newPlaceObject.reccomendedBy = bodyParams.reccomendedBy;
+  } else {
+    responseObject.error = 'NO_RECCOMENDED_BY';
+  }
+  if (bodyParams.notes) {
+    newPlaceObject.notes = bodyParams.notes;
+  } else {
+    // No note
+  }
   // Find number of keys
   // Object.keys(places).length
-  
   // Add to array (change when I refactor to an object)
   places.push(newPlaceObject);
   statusCode = 201;
   responseObject = {
-    status: "Success",
-    message: "Object was added successfully",
+    status: 'Success',
+    message: 'Object was added successfully',
+    // obj: newPlaceObject,
   };
   respondJSON(request, response, statusCode, responseObject);
-}
+};
 
 module.exports = {
   getAllPlaces,
