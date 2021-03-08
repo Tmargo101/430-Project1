@@ -30,8 +30,10 @@
           <textarea v-model="newPlace.notes" id="notes" name="notes" rows="4" cols="50"></textarea>
           <br>
           <button @click="submitNewPlace">Submit</button>
-          <div v-if="response.showSuccess" class="alert alert-success">
+          <div v-if="response.showSuccess" class="alert alert-success alert-dismissible">
+            <button href="#" class="close" data-dismiss="alert" aria-label="close" @click="response.showSuccess = false">&times;</button>
             <strong>Success</strong>
+            {{response.message}}
           </div>
       </div>
       
@@ -94,7 +96,7 @@
             const responseData = await response.json();
             console.log(responseData);
             this.response.status = responseData.status;
-            this.response.status = responseData.message;
+            this.response.message = responseData.message;
             this.response.showSuccess = true;
             
             this.newPlace.name = "";
