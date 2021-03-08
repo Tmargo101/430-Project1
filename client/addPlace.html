@@ -49,9 +49,10 @@
           pageTitle: "Add a new Place",
           username: "",
           api: {
-            getAllPlaces: "http://localhost:3000/get-all-places",
-            getPlace: "http://localhost:3000/get-place",
-            submitNewPlace: "http://localhost:3000/add-place",
+            base: "",
+            getAllPlaces: "/get-all-places",
+            getPlace: "/get-place",
+            submitNewPlace: "/add-place",
           },
           places: {},
           name: "",
@@ -105,6 +106,7 @@
           },
         }, // end methods
         created() {
+          this.api.base = window.location.origin;
           this.getAllPlaces();
         },
         mounted() {
