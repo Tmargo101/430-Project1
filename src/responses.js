@@ -1,24 +1,25 @@
 const xml = require('xml');
+const { v4: uuidv4 } = require('uuid');
 
 // Where data is stored
-const places = [
-  {
-    id: 0,
+const places = {
+  '5d4db169-307b-415f-b4e9-7cae097a0f27': {
+    id: '5d4db169-307b-415f-b4e9-7cae097a0f27',
     name: 'Tullys',
     address: '1225 W Jefferson Rd, Rochester, NY',
     reccomendedBy: 'Tom',
     notes: 'After 9p on weekdays - $5.99 Chicken Tenders',
     been: true,
   },
-  {
-    id: 1,
+  '70ba029a-102d-4016-befa-f95d7afc8e8e': {
+    id: '70ba029a-102d-4016-befa-f95d7afc8e8e',
     name: 'Han Noodle Bar',
     address: '687 Monroe Ave, Rochester, NY 14607',
     reccomendedBy: 'Justin',
     notes: 'Crispy noodles are the best',
     been: true,
   },
-];
+};
 
 // Source: https://stackoverflow.com/questions/2219526/how-many-bytes-in-a-javascript-string/29955838
 // Refactored to an arrow function by ACJ
@@ -194,13 +195,16 @@ const addPlace = (request, response, bodyParams) => {
   // Find number of keys
   // Object.keys(places).length
   // Add to array (change when I refactor to an object)
-  places.push(newPlaceObject);
+  const newPlaceUUID = uuidv4();
+  newPlaceObject.id = newPlaceUUID;
+  places[newPlaceUUID] = newPlaceObject;
   statusCode = 201;
   responseObject = {
     status: 'Success',
     message: 'Object was added successfully',
     // obj: newPlaceObject,
   };
+  console.log(places);
   respondJSON(request, response, statusCode, responseObject);
 };
 

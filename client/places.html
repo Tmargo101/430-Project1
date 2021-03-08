@@ -52,6 +52,7 @@
             .then(json => {	
               this.places = json;
             });
+          
           }, // end getAllPlaces
           getPlace(placeID){
             let url = `${this.api.base}${this.api.getPlace}?placeID=${placeID}`
