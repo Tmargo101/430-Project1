@@ -1,4 +1,5 @@
-const xml = require('xml');
+const xml = require('js2xmlparser');
+const { objectToXml } = require('js-object-to-xml');
 const { v4: uuidv4 } = require('uuid');
 
 // Where data is stored
@@ -65,8 +66,13 @@ const respondJSONHeaders = (request, response, statusCode, jsonResponseObject) =
 // };
 
 const respondXML = (request, response, statusCode, xmlResponseObject) => {
-  // const xmlString = buildXMLResponse(xmlResponseObject);
-  const xmlString = xml(xmlResponseObject);
+  // console.log(xmlResponseObject);
+  const propertyValues = Object.values(xmlResponseObject);
+  // console.log(propertyValues);
+  // let xmlString = xml.parse("place", propertyValues);
+  let xmlString = "<?xml version='1.0'?>";
+  xmlString += objectToXml(xmlResponseObject);
+  
   const headers = {
     'Content-Type': 'text/xml',
   };

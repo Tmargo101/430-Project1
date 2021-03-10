@@ -28,6 +28,8 @@
     "nodemon": "^2.0.7"
   },
   "dependencies": {
+    "js-object-to-xml": "^0.5.1",
+    "js2xmlparser": "^4.0.1",
     "uuid": "^8.3.2",
     "xml": "^1.0.1"
   }
