@@ -14,7 +14,9 @@
     <div id="app">
       <nav-bar :title="appTitle"></nav-bar>
       <div class="container mt-5">
-        <h1 class="display-4 mb-5">{{pageTitle}}</h1>
+        <div class='row justify-content-center'>
+          <h1 class="display-4 mb-5">{{pageTitle}}</h1>
+        </div>
       </div>
       <div class="container">
         <div class='row justify-content-center'>
@@ -76,7 +78,7 @@
         el: '#app',
         data: {
           appTitle: "Places To Eat",
-          pageTitle: "Add a new Place",
+          pageTitle: "Add a New Place",
           username: "",
           api: {
             base: "",

@@ -14,7 +14,9 @@
     <div id="app">
       <nav-bar :title="appTitle"></nav-bar>
       <div class="container mt-5">
-        <h1 class="display-4 mb-5">Admin</h1>
+        <div class='row justify-content-center'>
+          <h1 class="display-4 mb-5">{{pageTitle}}</h1>
+        </div>
         <admin-place-list v-bind:places="places" v-bind:title="pageTitle"></place-list>
       </div>
 
@@ -26,7 +28,7 @@
         el: '#app',
         data: {
           appTitle: "Places To Eat",
-          pageTitle: "Admin",
+          pageTitle: "Delete Places",
           api: {
             base: "",
             getAllPlaces: "/get-all-places",

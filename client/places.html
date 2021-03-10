@@ -14,12 +14,14 @@
     <div id="app">
       <nav-bar :title="appTitle"></nav-bar>     
       <div class="container mt-5">
-        <h1 class="display-4 mb-5">{{pageTitle}}</h1>
-        <div v-if='!showPlace' class="col-12">
+        <div class='row justify-content-center'>
+          <h1 class="display-4 mb-5">{{pageTitle}}</h1>
+        </div>
+        <div v-if='!showPlace' class="col-auto">
           <place-list :places="places" :title="pageTitle" v-on:get-place="getPlace($event); "></place-list>
         </div>
-        <div v-if='showPlace' class="col-12">
-          <button class='btn btn-dark float-right' @click='showPlace = false; pageTitle = "Show All Places"' class="close" data-dismiss="alert" aria-label="close">&times;</button>
+        <div v-if='showPlace' class="col-auto">
+          <button class='btn btn-dark float-right' @click='showPlace = false; pageTitle = "All Places"' class="close" data-dismiss="alert" aria-label="close">&times;</button>
           <place-info v-bind:place.sync="place" v-on:update-place="updatePlace($event);"></place-info>
           <p>{{updatedNoteTest}}</p>
         </div>
@@ -31,7 +33,7 @@
         el: '#app',
         data: {
           appTitle: "Places To Eat",
-          pageTitle: "Show All Places",
+          pageTitle: "All Places",
           api: {
             base: "",
             getAllPlaces: "/get-all-places",
@@ -72,7 +74,7 @@
               .then(json => {	
                 this.place = json;
                 this.showPlace = true;
-                this.pageTitle = "Place"
+                this.pageTitle = "About this Place"
               });
             }, // end getPlace
             

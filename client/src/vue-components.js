@@ -19,10 +19,10 @@ Vue.component('nav-bar', {
           <a class="nav-link" href="/places.html">Places</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/addPlace.html">Add a place</a>
+          <a class="nav-link" href="/addPlace.html">Add a Place</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/admin.html">Admin</a>
+          <a class="nav-link" href="/admin.html">Remove</a>
         </li>
       </ul>
     </div>
@@ -95,31 +95,46 @@ Vue.component('admin-place-list-item', {
 
 Vue.component('place-info', {
   props: ['place'],
+  data: function () {
+    return {
+      allowUpdate: false,
+    }
+  },
   template: `
-  <div class='container'>
-    <div class='row'>
-      <h1>{{place.name}}</h1>
-    </div>
-    <div class='row'>
-      <div class='col-4'>
-        <h2>Address:</h2>
-      </div>
-      <div class='col-8'>
-        <h4>{{place.address}}</h4>
+  <div class='container-fluid p-3 border rounded' style='border: 5px black;'>
+    <div class='row justify-content-start'>
+      <div class='col-auto'>
+        <h1 class='display-4'>{{place.name}}</h1>
       </div>
     </div>
-    <div class='row'>
-      <div class='col-6'>
+    <div class='row justify-content-between pt-3 pl-5'>
+      <div class='col-auto'>
+        <h3>Address:</h3>
+      </div>
+      <div class='col-auto'>
+        <h3>{{place.address}}</h3>
+      </div>
+      <hr>
+    </div>
+    <div class='row justify-content-between pt-3 pl-5'>
+      <div class='col-auto'>
         <h4>Reccomended by:</h4>
       </div>
-      <div class='col-6'>
-        <h2>{{place.reccomendedBy}}</h2>
+      <div class='col-auto'>
+        <h4>{{place.reccomendedBy}}</h4>
+      </div>
+      <hr>
+    </div>
+    <div class='row justify-content-center pt-5'>
+      <div class='col-11'>
+        <h4>Notes:</h4>
+        <textarea rows='6' class='form-control' v-model='place.notes' v-on:input='allowUpdate = true;'></textarea>
+        <button class='btn btn-primary mt-3' :disabled='!allowUpdate' :class='allowUpdate === true ? "btn-primary" : "btn-light"' v-bind:value='place.id' @click='$emit("update-place", $event.target.value)'>Save Changes</button>
       </div>
     </div>
-    <p>Notes:</p>
+    
     <div class='row-auto'>
-      <textarea rows='6' class='form-control' v-model='place.notes'></textarea>
-      <button class='btn btn-primary mt-3' v-bind:value='place.id' @click='$emit("update-place", $event.target.value)'>Save Changes</button>
+      
     </div>
   </div>
   `,

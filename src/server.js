@@ -72,23 +72,26 @@ const handlePost = (request, response, parsedUrl, params) => {
       responses.updatePlace(request, response, bodyParams, params);
     });
   }
+  else {
+    client.getErrorPage(request, response);
+  }
 };
 
 // const handlePut = (request, response, parsedUrl) => {
 //   if (parsedUrl.pathname === '/add-place') {
 //     const body = [];
-// 
+//
 //     // https://nodejs.org/api/http.html
 //     request.on('error', (err) => {
 //       console.dir(err);
 //       response.statusCode = 400;
 //       response.end();
 //     });
-// 
+//
 //     request.on('data', (chunk) => {
 //       body.push(chunk);
 //     });
-// 
+//
 //     request.on('end', () => {
 //       const bodyString = Buffer.concat(body).toString();
 //       const bodyParams = query.parse(bodyString);
@@ -97,7 +100,6 @@ const handlePost = (request, response, parsedUrl, params) => {
 //   }
 // };
 
-
 const onRequest = (request, response) => {
   const parsedUrl = url.parse(request.url);
   const { pathname } = parsedUrl;
@@ -105,9 +107,9 @@ const onRequest = (request, response) => {
   let acceptedTypes = request.headers.accept && request.headers.accept.split(',');
   acceptedTypes = acceptedTypes || [];
 
-  if (request.method === 'POST' || request.method === "PUT") {
+  if (request.method === 'POST' || request.method === 'PUT') {
     // handle POST
-    console.log(request.method)
+    console.log(request.method);
     handlePost(request, response, parsedUrl, params);
     return; // bail out of function
   }

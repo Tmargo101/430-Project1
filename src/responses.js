@@ -209,7 +209,7 @@ const addPlace = (request, response, bodyParams) => {
 };
 
 const updatePlace = (request, response, bodyParams, params) => {
-  console.log("got to responses.updatePlace");
+  console.log('got to responses.updatePlace');
   let statusCode = 404;
   let responseObject = {
     error: 'NOT_UPDATED',
@@ -237,8 +237,8 @@ const updatePlace = (request, response, bodyParams, params) => {
     updatedPlaceObject.notes = bodyParams.notes;
   } else {
     // No note
-    responseObject.error = "NO_UPDATE";
-    responseObject.message = "There was no update, or the note was empty."
+    responseObject.error = 'NO_UPDATE';
+    responseObject.message = 'There was no update, or the note was empty.';
   }
   // Find number of keys
   // Object.keys(places).length
@@ -254,7 +254,6 @@ const updatePlace = (request, response, bodyParams, params) => {
   };
   respondJSON(request, response, statusCode, responseObject);
 };
-
 
 module.exports = {
   getAllPlaces,
