@@ -117,8 +117,10 @@ Vue.component('place-info', {
       </div>
     </div>
     <p>Notes:</p>
-    <textarea class='form-control'> {{place.notes}}</textarea>
-    <button class='btn btn-primary mt-3' v-bind:value='place.id' @click='$emit("update-place", $event.target.value)'>Save Changes</button>
+    <div class='row-auto'>
+      <textarea rows='6' class='form-control' v-model='place.notes'></textarea>
+      <button class='btn btn-primary mt-3' v-bind:value='place.id' @click='$emit("update-place", $event.target.value)'>Save Changes</button>
+    </div>
   </div>
   `,
 });

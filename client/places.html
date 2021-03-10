@@ -19,8 +19,9 @@
           <place-list :places="places" :title="pageTitle" v-on:get-place="getPlace($event); "></place-list>
         </div>
         <div v-if='showPlace' class="col-12">
-          <button class='btn btn-dark' @click='showPlace = false; pageTitle = "Show All Places"' class="close" data-dismiss="alert" aria-label="close">&times;</button>
-          <place-info v-bind:place="place" v-on:update-place="updatePlace($event);"></place-info>
+          <button class='btn btn-dark float-right' @click='showPlace = false; pageTitle = "Show All Places"' class="close" data-dismiss="alert" aria-label="close">&times;</button>
+          <place-info v-bind:place.sync="place" v-on:update-place="updatePlace($event);"></place-info>
+          <p>{{updatedNoteTest}}</p>
         </div>
       </div>
     </div>
@@ -40,6 +41,11 @@
           places: {},
           place: {},
           showPlace: false,
+          response: {
+            status: "",
+            message: "",
+          },
+          updatedNoteTest: "",
         },
         methods:{
         getAllPlaces(){
@@ -53,10 +59,9 @@
             .then(json => {	
               this.places = json;
             });
-          
           }, // end getAllPlaces
           getPlace(placeID){
-            let url = `${this.api.base}${this.api.getPlace}?placeID=${placeID}`
+            let url = `${this.api.base}${this.api.getPlace}?placeID=${placeID}`;
             fetch(url)
               .then(response => {
               if(!response.ok){
@@ -70,9 +75,36 @@
                 this.pageTitle = "Place"
               });
             }, // end getPlace
-            updatePlace(placeID) {
+            
+            async updatePlace(placeID) {
               let url = `${this.api.base}${this.api.updatePlace}?placeID=${placeID}`;
               console.log(url);
+              
+              const params = new URLSearchParams();
+              params.append('notes', this.place.notes);
+              
+              const newPutRequest = {
+                method: "PUT",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: params,
+              };
+              
+              
+              const response = await fetch(url, newPutRequest)
+                .then(this.getPlace(placeID))
+                .then(this.getAllPlaces());
+              // this.getAllPlaces();
+              
+              // const responseData = await response.json();
+              // console.log(responseData);
+              // this.response.status = responseData.status;
+              // this.response.message = responseData.message;
+              // if (this.response.status === "Success") {
+              //   this.response.showSuccess = true;
+              // } else if (this.response.status === "Failure") {
+              //   this.response.showFailure = true;
+              // }
+  
             },
         }, // end methods
         created() {

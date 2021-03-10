@@ -31,7 +31,7 @@ const urlStruct = {
   },
 };
 
-const handlePost = (request, response, parsedUrl) => {
+const handlePost = (request, response, parsedUrl, params) => {
   if (parsedUrl.pathname === '/add-place') {
     const body = [];
 
@@ -52,7 +52,51 @@ const handlePost = (request, response, parsedUrl) => {
       responses.addPlace(request, response, bodyParams);
     });
   }
+  if (parsedUrl.pathname === '/update-place') {
+    const body = [];
+
+    // https://nodejs.org/api/http.html
+    request.on('error', (err) => {
+      console.dir(err);
+      response.statusCode = 400;
+      response.end();
+    });
+
+    request.on('data', (chunk) => {
+      body.push(chunk);
+    });
+
+    request.on('end', () => {
+      const bodyString = Buffer.concat(body).toString();
+      const bodyParams = query.parse(bodyString);
+      responses.updatePlace(request, response, bodyParams, params);
+    });
+  }
 };
+
+// const handlePut = (request, response, parsedUrl) => {
+//   if (parsedUrl.pathname === '/add-place') {
+//     const body = [];
+// 
+//     // https://nodejs.org/api/http.html
+//     request.on('error', (err) => {
+//       console.dir(err);
+//       response.statusCode = 400;
+//       response.end();
+//     });
+// 
+//     request.on('data', (chunk) => {
+//       body.push(chunk);
+//     });
+// 
+//     request.on('end', () => {
+//       const bodyString = Buffer.concat(body).toString();
+//       const bodyParams = query.parse(bodyString);
+//       responses.addPlace(request, response, bodyParams);
+//     });
+//   }
+// };
+
 
 const onRequest = (request, response) => {
   const parsedUrl = url.parse(request.url);
@@ -61,9 +105,10 @@ const onRequest = (request, response) => {
   let acceptedTypes = request.headers.accept && request.headers.accept.split(',');
   acceptedTypes = acceptedTypes || [];
 
-  if (request.method === 'POST') {
+  if (request.method === 'POST' || request.method === "PUT") {
     // handle POST
-    handlePost(request, response, parsedUrl);
+    console.log(request.method)
+    handlePost(request, response, parsedUrl, params);
     return; // bail out of function
   }
 

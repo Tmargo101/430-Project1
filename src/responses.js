@@ -208,6 +208,54 @@ const addPlace = (request, response, bodyParams) => {
   respondJSON(request, response, statusCode, responseObject);
 };
 
+const updatePlace = (request, response, bodyParams, params) => {
+  console.log("got to responses.updatePlace");
+  let statusCode = 404;
+  let responseObject = {
+    error: 'NOT_UPDATED',
+    description: 'Place was not updated.  Please try again.',
+  };
+  console.log(params);
+  const updatedPlaceObject = places[params.placeID];
+  // if (bodyParams.name) {
+  //   updatedPlaceObject.name = bodyParams.name;
+  // } else {
+  //   // No name
+  //   responseObject.error = 'NO_NAME';
+  // }
+  // if (bodyParams.address) {
+  //   updatedPlaceObject.address = bodyParams.address;
+  // } else {
+  //   responseObject.error = 'NO_ADDRESS';
+  // }
+  // if (bodyParams.reccomendedBy) {
+  //   updatedPlaceObject.reccomendedBy = bodyParams.reccomendedBy;
+  // } else {
+  //   responseObject.error = 'NO_RECCOMENDED_BY';
+  // }
+  if (bodyParams.notes) {
+    updatedPlaceObject.notes = bodyParams.notes;
+  } else {
+    // No note
+    responseObject.error = "NO_UPDATE";
+    responseObject.message = "There was no update, or the note was empty."
+  }
+  // Find number of keys
+  // Object.keys(places).length
+  // Add to array (change when I refactor to an object)
+  // const newPlaceUUID = uuidv4();
+  // updatedPlaceObject.id = newPlaceUUID;
+  places[params.placeID] = updatedPlaceObject;
+  statusCode = 204;
+  responseObject = {
+    status: 'Success',
+    message: `${updatedPlaceObject.name} has been updated successfully`,
+    // obj: newPlaceObject,
+  };
+  respondJSON(request, response, statusCode, responseObject);
+};
+
+
 module.exports = {
   getAllPlaces,
   getAllPlacesHeaders,
@@ -215,4 +263,5 @@ module.exports = {
   getPlaceHeaders,
   notFound,
   addPlace,
+  updatePlace,
 };
