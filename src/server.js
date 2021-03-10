@@ -70,8 +70,7 @@ const handlePost = (request, response, parsedUrl, params) => {
       const bodyParams = query.parse(bodyString);
       responses.updatePlace(request, response, bodyParams, params);
     });
-  }
-  else {
+  } else {
     client.getErrorPage(request, response);
   }
 };
@@ -107,8 +106,6 @@ const onRequest = (request, response) => {
   acceptedTypes = acceptedTypes || [];
 
   if (request.method === 'POST' || request.method === 'PUT') {
-    // handle POST
-    console.log(request.method);
     handlePost(request, response, parsedUrl, params);
     return; // bail out of function
   }

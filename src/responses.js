@@ -163,95 +163,81 @@ const notFound = (request, response) => {
 };
 
 const addPlace = (request, response, bodyParams) => {
-  let statusCode = 404;
+  let statusCode = 400;
   let responseObject = {
     error: 'NOT_ADDED',
     description: 'Place was not added.  Please try again.',
   };
+  let allParamsChecked = false;
   console.log(bodyParams);
   const newPlaceObject = {};
   // Add name to object
   if (bodyParams.name) {
     newPlaceObject.name = bodyParams.name;
+    if (bodyParams.address) {
+      newPlaceObject.address = bodyParams.address;
+      if (bodyParams.reccomendedBy) {
+        newPlaceObject.reccomendedBy = bodyParams.reccomendedBy;
+        if (bodyParams.notes) {
+          newPlaceObject.notes = bodyParams.notes;
+          allParamsChecked = true;
+        } else {
+          // No note
+        }
+      } else {
+        responseObject.error = 'NO_RECCOMENDED_BY';
+      }
+    } else {
+      responseObject.error = 'NO_ADDRESS';
+    }
   } else {
     // No name
     responseObject.error = 'NO_NAME';
   }
-  if (bodyParams.address) {
-    newPlaceObject.address = bodyParams.address;
-  } else {
-    responseObject.error = 'NO_ADDRESS';
+  if (allParamsChecked) {
+    const newPlaceUUID = uuidv4();
+    newPlaceObject.id = newPlaceUUID;
+    places[newPlaceUUID] = newPlaceObject;
+    statusCode = 201;
+    responseObject = {
+      status: 'Success',
+      message: `${newPlaceObject.name} has been added successfully`,
+    };
   }
-  if (bodyParams.reccomendedBy) {
-    newPlaceObject.reccomendedBy = bodyParams.reccomendedBy;
-  } else {
-    responseObject.error = 'NO_RECCOMENDED_BY';
-  }
-  if (bodyParams.notes) {
-    newPlaceObject.notes = bodyParams.notes;
-  } else {
-    // No note
-  }
-  // Find number of keys
-  // Object.keys(places).length
-  // Add to array (change when I refactor to an object)
-  const newPlaceUUID = uuidv4();
-  newPlaceObject.id = newPlaceUUID;
-  places[newPlaceUUID] = newPlaceObject;
-  statusCode = 201;
-  responseObject = {
-    status: 'Success',
-    message: `${newPlaceObject.name} has been added successfully`,
-    // obj: newPlaceObject,
-  };
-  console.log(places);
   respondJSON(request, response, statusCode, responseObject);
 };
 
 const updatePlace = (request, response, bodyParams, params) => {
-  console.log('got to responses.updatePlace');
-  let statusCode = 404;
+  let statusCode = 400;
   let responseObject = {
     error: 'NOT_UPDATED',
     description: 'Place was not updated.  Please try again.',
   };
-  console.log(params);
-  const updatedPlaceObject = places[params.placeID];
-  // if (bodyParams.name) {
-  //   updatedPlaceObject.name = bodyParams.name;
-  // } else {
-  //   // No name
-  //   responseObject.error = 'NO_NAME';
-  // }
-  // if (bodyParams.address) {
-  //   updatedPlaceObject.address = bodyParams.address;
-  // } else {
-  //   responseObject.error = 'NO_ADDRESS';
-  // }
-  // if (bodyParams.reccomendedBy) {
-  //   updatedPlaceObject.reccomendedBy = bodyParams.reccomendedBy;
-  // } else {
-  //   responseObject.error = 'NO_RECCOMENDED_BY';
-  // }
-  if (bodyParams.notes) {
-    updatedPlaceObject.notes = bodyParams.notes;
+  let updatedPlaceObject = {};
+  let allParamsChecked = false;
+  if (params.placeID) {
+    updatedPlaceObject = places[params.placeID];
+    if (bodyParams.notes) {
+      updatedPlaceObject.notes = bodyParams.notes;
+      allParamsChecked = true;
+    } else {
+      // No note
+      responseObject.error = 'NO_UPDATE';
+      responseObject.message = 'There was no update, or the note was empty.';
+    }
   } else {
-    // No note
-    responseObject.error = 'NO_UPDATE';
-    responseObject.message = 'There was no update, or the note was empty.';
+    // No PlaceID
+    responseObject.error = 'NO_PLACEID';
+    responseObject.message = 'The place was not found.';
   }
-  // Find number of keys
-  // Object.keys(places).length
-  // Add to array (change when I refactor to an object)
-  // const newPlaceUUID = uuidv4();
-  // updatedPlaceObject.id = newPlaceUUID;
-  places[params.placeID] = updatedPlaceObject;
-  statusCode = 204;
-  responseObject = {
-    status: 'Success',
-    message: `${updatedPlaceObject.name} has been updated successfully`,
-    // obj: newPlaceObject,
-  };
+  if (allParamsChecked) {
+    places[params.placeID] = updatedPlaceObject;
+    statusCode = 204;
+    responseObject = {
+      status: 'Success',
+      message: `${updatedPlaceObject.name} has been updated successfully`,
+    };
+  }
   respondJSON(request, response, statusCode, responseObject);
 };
 
