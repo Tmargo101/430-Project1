@@ -51,8 +51,7 @@ const handlePost = (request, response, parsedUrl, params) => {
       const bodyParams = query.parse(bodyString);
       responses.addPlace(request, response, bodyParams);
     });
-  }
-  if (parsedUrl.pathname === '/update-place') {
+  } else if (parsedUrl.pathname === '/update-place') {
     const body = [];
 
     // https://nodejs.org/api/http.html
