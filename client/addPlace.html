@@ -2,7 +2,7 @@
 
 <html lang="en">
   <head>
-    <title>Admin</title>
+    <title>Add Place</title>
     <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap/dist/css/bootstrap.min.css" />
     <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css" />
     
@@ -17,24 +17,54 @@
         <h1 class="display-4 mb-5">{{pageTitle}}</h1>
       </div>
       <div class="container">
-          <label for="placename">Place name:</label><br>
-          <input class="form-control form-control-lg" v-model="newPlace.name" type="text" id="placename" name="placename"><br>
-          
-          <label for="address">Address:</label><br>
-          <input class="form-control" v-model="newPlace.address" type="text" id="address" name="address"><br>
-          
-          <label for="reccomendedby">Recommended by:</label><br>
-          <input class="form-control" v-model="newPlace.reccomendedBy" type="text" id="reccomendedby" name="reccomendedby" v-bind:placeholder="username"><br>
-          
-          <label for="notes">Notes:</label><br>
-          <textarea class="form-control" v-model="newPlace.notes" id="notes" name="notes" rows="6" cols="50"></textarea>
-          <br>
-          <button class='btn btn-primary btn-lg' @click="submitNewPlace">Submit</button>
-          <div v-if="response.showSuccess" class="alert alert-success alert-dismissible">
+        <div class='row justify-content-center'>
+          <div v-if="response.showSuccess" class="alert alert-success alert-dismissible pt-2 pb-2 col-6" style="text-align: center;">
             <button href="#" class="close" data-dismiss="alert" aria-label="close" @click="response.showSuccess = false">&times;</button>
-            <strong>Success</strong>
+            <strong>Success</strong><br>
             {{response.message}}
           </div>
+          <div v-if="response.showWarning" class="alert alert-warning alert-dismissible pt-2 pb-2 col-6" style="text-align: center;">
+            <button href="#" class="close" data-dismiss="alert" aria-label="close" @click="response.showWarning = false">&times;</button>
+            <strong>Not Submitted</strong><br>
+            {{response.message}}
+          </div>
+
+        </div>
+        <form @submit.prevent="validateAndSubmit">
+          <div class='col-auto'>
+            <label for="placename">Place name:</label><br>
+            <input class="form-control form-control-lg" v-model="newPlace.name" type="text" id="placename" name="placename">
+            <div v-if='response.noNameWarning' style='color: red;'>
+              Please enter a Place Name.
+            </div>
+            <br>
+          </div>
+          <div class='col-auto'>
+            <label for="address">Address:</label><br>
+            <input class="form-control" v-model="newPlace.address" type="text" id="address" name="address">
+            <div v-if='response.noAddressWarning' style='color: red;'>
+              Please enter an Address.
+            </div>
+            <br>
+          </div>
+  
+          <div class='col-auto'>
+            <label for='reccomendedby'>Recommended by:</label><br>
+            <input class="form-control" v-model="newPlace.reccomendedBy" type="text" id="reccomendedby" name="reccomendedby" v-bind:placeholder="username">
+            <div v-if='response.noReccomendedByWarning' style='color: red;'>
+            Please enter a Name.
+            </div>
+            <br>
+          </div>
+          <div class='col-auto'>
+            <label for="notes">Notes:</label><br>
+            <textarea class="form-control" v-model="newPlace.notes" id="notes" name="notes" rows="6" cols="50"></textarea>
+            <br>
+          </div>
+          <div class='col-auto'>
+            <input type="submit" class='btn btn-primary btn-lg'>
+          </div>
+        </form>
       </div>
       
 
@@ -66,6 +96,8 @@
             status: "",
             message: "",
             showSuccess: false,
+            showWarning: false,
+            showFailure: false,
           }
         },
         methods:{
@@ -81,13 +113,42 @@
               this.places = json;
             });
           }, // end getAllPlaces
+          validateAndSubmit() {
+            
+            // Clear the response message
+            this.response.message = ""
+            
+            if (this.newPlace.name === "") {
+              this.response.showWarning = true;
+              this.response.noNameWarning = true;
+            } else {
+              this.response.noNameWarning = false;
+            }
+            
+            if (this.newPlace.address === "") {
+              this.response.showWarning = true;
+              this.response.noAddressWarning = true;
+            } else {
+              this.response.noAddressWarning = false;
+            }
+            
+            if (this.newPlace.reccomendedBy === "") {
+              this.response.showWarning = true;
+              this.response.noReccomendedByWarning = true;
+            } else {
+              this.response.noReccomendedByWarning = false;
+            }
+            
+            if (this.newPlace.name === "" || this.newPlace.address === "" || this.newPlace.reccomendedBy === "") {
+              this.response.message = "Please fill out all required fields."
+              return;
+            } else {
+              this.submitNewPlace()
+            }
+          },
           async submitNewPlace() {
-            // const newPlaceObject = {
-            //   name: this.newPlace.name,
-            //   address: this.newPlace.address,
-            //   reccomendedBy: this.newPlace.reccomendedBy,
-            //   notes: this.newPlace.notes,
-            // };
+            
+            this.response.showWarning = false;
             
             const params = new URLSearchParams();
             params.append('name', this.newPlace.name);
@@ -107,7 +168,11 @@
             console.log(responseData);
             this.response.status = responseData.status;
             this.response.message = responseData.message;
-            this.response.showSuccess = true;
+            if (this.response.status === "Success") {
+              this.response.showSuccess = true;
+            } else if (this.response.status === "Failure") {
+              this.response.showFailure = true;
+            }
             
             this.newPlace.name = "";
             this.newPlace.address = "";
@@ -118,6 +183,7 @@
         created() {
           this.api.base = window.location.origin;
           this.getAllPlaces();
+          
         },
         mounted() {
           if(localStorage.username) {

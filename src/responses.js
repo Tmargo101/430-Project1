@@ -201,7 +201,7 @@ const addPlace = (request, response, bodyParams) => {
   statusCode = 201;
   responseObject = {
     status: 'Success',
-    message: 'Object was added successfully',
+    message: `${newPlaceObject.name} has been added successfully`,
     // obj: newPlaceObject,
   };
   console.log(places);
