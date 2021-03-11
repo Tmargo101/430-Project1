@@ -14,7 +14,7 @@ const mainJS = fs.readFileSync(`${__dirname}/../client/src/main.js`);
 
 const icon = fs.readFileSync(`${__dirname}/../client/icon.png`);
 
-const css = fs.readFileSync(`${__dirname}/../client/styles.css`)
+const css = fs.readFileSync(`${__dirname}/../client/styles.css`);
 
 const getHomePage = (request, response) => {
   response.writeHead(200, { 'Content-Type': 'text/html' });
@@ -81,7 +81,6 @@ const getCss = (request, response) => {
   response.write(css);
   response.end();
 };
-
 
 module.exports = {
   getHomePage,

@@ -56,7 +56,7 @@ Vue.component('place-list-item', {
     <td>{{place.address}}</td>
     <td>{{place.reccomendedBy}}</td>
     <td>{{place.notes}}</td>
-    <td><button class='btn btn-secondary' v-bind:value='place.id' v-on:click="$emit('remove-place', $event.target.value)">More Info</button></td>
+    <td><button class='btn btn-secondary' v-bind:value='place.id' v-on:click="$emit('get-place', $event.target.value)">More Info</button></td>
   </tr>
   `,
 });
