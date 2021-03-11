@@ -34,6 +34,7 @@ const urlStruct = {
   },
 };
 
+// Handles POST, PUT, and GET requests
 const handlePost = (request, response, parsedUrl, params) => {
   const body = [];
 

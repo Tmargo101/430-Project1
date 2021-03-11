@@ -34,6 +34,7 @@ const respondJSON = (request, response, statusCode, jsonResponseObject) => {
   response.end();
 };
 
+// Builds JSON response for headers
 const respondJSONHeaders = (request, response, statusCode, jsonResponseObject) => {
   const headers = {
     'Content-Type': 'application/json',
@@ -43,6 +44,8 @@ const respondJSONHeaders = (request, response, statusCode, jsonResponseObject) =
   response.end();
 };
 
+// Returns an XML String from an object
+// Uses the 'js-object-to-xml' package.
 const buildXMLString = (xmlResponseObject, multiple) => {
   let xmlString = "<?xml version='1.0'?>";
 
@@ -54,6 +57,7 @@ const buildXMLString = (xmlResponseObject, multiple) => {
   return xmlString;
 };
 
+// Creates & sends responses for GET requests where 'Content-Type' is 'text/xml'
 const respondXML = (request, response, statusCode, xmlResponseObject, multiple) => {
   const XMLResponse = buildXMLString(xmlResponseObject, multiple);
   const headers = {
@@ -64,6 +68,7 @@ const respondXML = (request, response, statusCode, xmlResponseObject, multiple) 
   response.end();
 };
 
+// Creates and sends responses for HEAD requests where 'Content-Type' is 'text/xml'
 const respondXMLHeaders = (request, response, statusCode, xmlResponseObject, multiple) => {
   const XMLResponse = buildXMLString(xmlResponseObject, multiple);
   const headers = {
@@ -74,6 +79,7 @@ const respondXMLHeaders = (request, response, statusCode, xmlResponseObject, mul
   response.end();
 };
 
+// Responds to the 'get-all-places' endpoint with GET request type.
 const getAllPlaces = (request, response, params, acceptedTypes) => {
   let statusCode = 404;
   let responseObject = {
@@ -91,6 +97,7 @@ const getAllPlaces = (request, response, params, acceptedTypes) => {
   }
 };
 
+// Responds to the 'get-all-places' endpoint with HEAD request type.
 const getAllPlacesHeaders = (request, response, params, acceptedTypes) => {
   let statusCode = 404;
   let responseObject = {
@@ -108,6 +115,7 @@ const getAllPlacesHeaders = (request, response, params, acceptedTypes) => {
   }
 };
 
+// Responds to the 'get-place' endpoint with GET request type.
 const getPlace = (request, response, params, acceptedTypes) => {
   let statusCode = 404;
   let responseObject = {
@@ -125,6 +133,7 @@ const getPlace = (request, response, params, acceptedTypes) => {
   }
 };
 
+// Responds to the 'get-place' endpoint with HEAD request type.
 const getPlaceHeaders = (request, response, params, acceptedTypes) => {
   let statusCode = 404;
   let responseObject = {
@@ -142,6 +151,7 @@ const getPlaceHeaders = (request, response, params, acceptedTypes) => {
   }
 };
 
+// Return a JSON payload for 'not found' requests.
 const notFound = (request, response) => {
   const jsonResponseObject = {
     message: 'Page not found',
@@ -150,6 +160,8 @@ const notFound = (request, response) => {
   return respondJSON(request, response, 404, jsonResponseObject);
 };
 
+// Respond to POST requests to the '/add-place' endpoint.
+// Checks if all params are present, then generates a new UUID & creates the object.
 const addPlace = (request, response, bodyParams) => {
   let statusCode = 400;
   let responseObject = {
@@ -194,6 +206,9 @@ const addPlace = (request, response, bodyParams) => {
   respondJSON(request, response, statusCode, responseObject);
 };
 
+// Respond to PUT requests to the '/update-place' endpoint with a valid PlaceID.
+// Checks if all params are present, gets the object from the Places object & updates the appropriate field.
+
 const updatePlace = (request, response, bodyParams, params) => {
   let statusCode = 400;
   let responseObject = {
@@ -228,6 +243,8 @@ const updatePlace = (request, response, bodyParams, params) => {
   respondJSON(request, response, statusCode, responseObject);
 };
 
+// Respond to DELETE requests to the '/remove-place' endpoint with a valid PlaceID.
+// Checks if all params are present, then removes the object from the Places object.
 const removePlace = (request, response, bodyParams, params) => {
   let statusCode = 400;
   let responseObject = {
