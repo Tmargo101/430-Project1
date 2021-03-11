@@ -1,4 +1,3 @@
-const xml = require('js2xmlparser');
 const { objectToXml } = require('js-object-to-xml');
 const { v4: uuidv4 } = require('uuid');
 
@@ -44,49 +43,32 @@ const respondJSONHeaders = (request, response, statusCode, jsonResponseObject) =
   response.end();
 };
 
-// const buildXMLResponse = (xmlResponseObject) => {
-//   let xmlString = `
-//   <?xml verson="1.0" ?>
-//   <places>
-//   `;
-//   for (let i = 0; i < limit; i += 1) {
-//     xmlString += `
-//     <place>
-//       <name></name>
-//       <address></address>
-//       <reccomendedBy></reccomendedBy>
-//       <notes></notes>
-//     </place>
-//     `;
-//   }
-//   xmlString += `
-//   </places>
-//   `;
-//   return xmlString;
-// };
-
-const respondXML = (request, response, statusCode, xmlResponseObject) => {
-  // console.log(xmlResponseObject);
-  const propertyValues = Object.values(xmlResponseObject);
-  // console.log(propertyValues);
-  // let xmlString = xml.parse("place", propertyValues);
+const buildXMLString = (xmlResponseObject, multiple) => {
   let xmlString = "<?xml version='1.0'?>";
-  xmlString += objectToXml(xmlResponseObject);
-  
+
+  if (multiple) {
+    xmlString += `<places>${objectToXml(xmlResponseObject)}</places>`;
+  } else {
+    xmlString += `<place>${objectToXml(xmlResponseObject)}</place>`;
+  }
+  return xmlString;
+};
+
+const respondXML = (request, response, statusCode, xmlResponseObject, multiple) => {
+  const XMLResponse = buildXMLString(xmlResponseObject, multiple);
   const headers = {
     'Content-Type': 'text/xml',
   };
   response.writeHead(statusCode, headers);
-  response.write(xmlString);
+  response.write(XMLResponse);
   response.end();
 };
-//
-const respondXMLHeaders = (request, response, statusCode, xmlResponseObject) => {
-  // const xmlString = buildXMLResponse(xmlResponseObject);
-  const xmlString = xml(xmlResponseObject);
+
+const respondXMLHeaders = (request, response, statusCode, xmlResponseObject, multiple) => {
+  const XMLResponse = buildXMLString(xmlResponseObject, multiple);
   const headers = {
     'Content-Type': 'text/xml',
-    'Content-Length': `${getBinarySize(xmlString)}`,
+    'Content-Length': `${getBinarySize(XMLResponse)}`,
   };
   response.writeHead(statusCode, headers);
   response.end();
@@ -103,7 +85,7 @@ const getAllPlaces = (request, response, params, acceptedTypes) => {
     responseObject = places;
   }
   if (acceptedTypes.includes('text/xml')) {
-    respondXML(request, response, statusCode, responseObject);
+    respondXML(request, response, statusCode, responseObject, true);
   } else {
     respondJSON(request, response, statusCode, responseObject);
   }
@@ -120,7 +102,7 @@ const getAllPlacesHeaders = (request, response, params, acceptedTypes) => {
     responseObject = places;
   }
   if (acceptedTypes.includes('text/xml')) {
-    respondXMLHeaders(request, response, statusCode, responseObject);
+    respondXMLHeaders(request, response, statusCode, responseObject, true);
   } else {
     respondJSONHeaders(request, response, statusCode, responseObject);
   }
@@ -137,7 +119,7 @@ const getPlace = (request, response, params, acceptedTypes) => {
     responseObject = places[params.placeID];
   }
   if (acceptedTypes.includes('text/xml')) {
-    respondXML(request, response, statusCode, responseObject);
+    respondXML(request, response, statusCode, responseObject, false);
   } else {
     respondJSON(request, response, statusCode, responseObject);
   }
@@ -154,7 +136,7 @@ const getPlaceHeaders = (request, response, params, acceptedTypes) => {
     responseObject = places[params.placeID];
   }
   if (acceptedTypes.includes('text/xml')) {
-    respondXMLHeaders(request, response, statusCode, responseObject);
+    respondXMLHeaders(request, response, statusCode, responseObject, false);
   } else {
     respondJSONHeaders(request, response, statusCode, responseObject);
   }
