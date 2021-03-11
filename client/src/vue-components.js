@@ -2,31 +2,24 @@ Vue.component('nav-bar', {
   props: ['title', 'currentPage'],
   template:
   `
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">
-    <img src="/icon.png" width="30" height="30" class="d-inline-block align-top" alt="">
-    {{title}}
-  </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" href="/">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/places.html">Places</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/addPlace.html">Add a Place</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/removePlace.html">Remove Places</a>
-        </li>
-      </ul>
-    </div>
-  </nav>
+  <div>
+  <b-navbar toggleable="lg" type="light" variant="light">
+    <b-navbar-brand href="#">
+      <img src="/icon.png" width="30" height="30" class="d-inline-block align-top" alt="">
+      {{title}}
+    </b-navbar-brand>
+
+    <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+    <b-collapse id="nav-collapse" is-nav>
+      <b-navbar-nav>
+        <b-nav-item href="/">Home</b-nav-item>
+        <b-nav-item href="/places.html">Places</b-nav-item>
+        <b-nav-item href="/addPlace.html">Add a Place</b-nav-item>
+        <b-nav-item href="/removePlace.html">Remove Places</b-nav-item>
+      </b-navbar-nav>
+    </b-collapse>
+  </b-navbar>
+</div>
   `,
 });
 
