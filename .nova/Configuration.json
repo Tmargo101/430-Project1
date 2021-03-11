@@ -2,5 +2,6 @@
   "apexskier.eslint.config.eslintConfigPath" : ".eslintrc.json",
   "apexskier.eslint.config.eslintRulesDirs" : [
     ""
-  ]
+  ],
+  "workspace.name" : "430-Project1"
 }

@@ -207,7 +207,9 @@ const addPlace = (request, response, bodyParams) => {
 };
 
 // Respond to PUT requests to the '/update-place' endpoint with a valid PlaceID.
-// Checks if all params are present, gets the object from the Places object & updates the appropriate field.
+// Checks if all params are present,
+// gets the object from the Places object,
+// & updates the appropriate field.
 
 const updatePlace = (request, response, bodyParams, params) => {
   let statusCode = 400;
