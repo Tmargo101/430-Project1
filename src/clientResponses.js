@@ -7,7 +7,7 @@ const homePage = fs.readFileSync(`${__dirname}/../client/home.html`);
 const placesPage = fs.readFileSync(`${__dirname}/../client/places.html`);
 const placePage = fs.readFileSync(`${__dirname}/../client/place.html`);
 const addPlacePage = fs.readFileSync(`${__dirname}/../client/addPlace.html`);
-const adminPage = fs.readFileSync(`${__dirname}/../client/admin.html`);
+const removePlacePage = fs.readFileSync(`${__dirname}/../client/removePlace.html`);
 
 const vueComponents = fs.readFileSync(`${__dirname}/../client/src/vue-components.js`);
 const mainJS = fs.readFileSync(`${__dirname}/../client/src/main.js`);
@@ -40,9 +40,9 @@ const getAddPlacePage = (request, response) => {
   response.end();
 };
 
-const getAdminPage = (request, response) => {
+const getRemovePlacePage = (request, response) => {
   response.writeHead(200, { 'Content-Type': 'text/html' });
-  response.write(adminPage);
+  response.write(removePlacePage);
   response.end();
 };
 
@@ -88,7 +88,7 @@ module.exports = {
   getPlacesPage,
   getPlacePage,
   getAddPlacePage,
-  getAdminPage,
+  getRemovePlacePage,
   getStatusPage,
   getErrorPage,
   getVueComponents,

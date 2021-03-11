@@ -157,7 +157,6 @@ const addPlace = (request, response, bodyParams) => {
     description: 'Place was not added.  Please try again.',
   };
   let allParamsChecked = false;
-  console.log(bodyParams);
   const newPlaceObject = {};
   // Add name to object
   if (bodyParams.name) {
@@ -211,12 +210,12 @@ const updatePlace = (request, response, bodyParams, params) => {
     } else {
       // No note
       responseObject.error = 'NO_UPDATE';
-      responseObject.message = 'There was no update, or the note was empty.';
+      responseObject.description = 'There was no update, or the note was empty.';
     }
   } else {
     // No PlaceID
     responseObject.error = 'NO_PLACEID';
-    responseObject.message = 'The place was not found.';
+    responseObject.description = 'The place was not found.';
   }
   if (allParamsChecked) {
     places[params.placeID] = updatedPlaceObject;
@@ -224,6 +223,33 @@ const updatePlace = (request, response, bodyParams, params) => {
     responseObject = {
       status: 'Success',
       message: `${updatedPlaceObject.name} has been updated successfully`,
+    };
+  }
+  respondJSON(request, response, statusCode, responseObject);
+};
+
+const removePlace = (request, response, bodyParams, params) => {
+  let statusCode = 400;
+  let responseObject = {
+    error: 'NOT_REMOVED',
+    description: 'Place was not removed.  Please try again.',
+  };
+  let nameOfDeletedPlace = '';
+  let allParamsChecked = false;
+  if (params.placeID && places[params.placeID] && params.placeID === places[params.placeID].id) {
+    nameOfDeletedPlace = places[params.placeID].name;
+    allParamsChecked = true;
+  } else {
+    // No PlaceID
+    responseObject.error = 'NO_PLACEID';
+    responseObject.description = 'The place was not found.';
+  }
+  if (allParamsChecked) {
+    delete places[params.placeID];
+    statusCode = 204;
+    responseObject = {
+      status: 'Success',
+      message: `${nameOfDeletedPlace} has been removed successfully`,
     };
   }
   respondJSON(request, response, statusCode, responseObject);
@@ -237,4 +263,5 @@ module.exports = {
   notFound,
   addPlace,
   updatePlace,
+  removePlace,
 };

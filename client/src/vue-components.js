@@ -22,7 +22,7 @@ Vue.component('nav-bar', {
           <a class="nav-link" href="/addPlace.html">Add a Place</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/admin.html">Remove</a>
+          <a class="nav-link" href="/removePlace.html">Remove Places</a>
         </li>
       </ul>
     </div>
@@ -56,7 +56,7 @@ Vue.component('place-list-item', {
     <td>{{place.address}}</td>
     <td>{{place.reccomendedBy}}</td>
     <td>{{place.notes}}</td>
-    <td><button class='btn btn-secondary' v-bind:value='place.id' v-on:click="$emit('get-place', $event.target.value)">More Info</button></td>
+    <td><button class='btn btn-secondary' v-bind:value='place.id' v-on:click="$emit('remove-place', $event.target.value)">More Info</button></td>
   </tr>
   `,
 });
@@ -73,7 +73,7 @@ Vue.component('admin-place-list', {
       <th>Notes</th>
       <th></th>
     </thead>
-    <tr is="admin-place-list-item" v-for="(place,index) in places" v-bind:place="place" v-bind:index="index" v-on:get-place="$emit('get-place', $event)"></tr>
+    <tr is="admin-place-list-item" v-for="(place,index) in places" v-bind:place="place" v-bind:index="index" v-on:remove-place="$emit('remove-place', $event)"></tr>
   </table>
   </div>
   `,
@@ -87,7 +87,7 @@ Vue.component('admin-place-list-item', {
     <td>{{place.address}}</td>
     <td>{{place.reccomendedBy}}</td>
     <td>{{place.notes}}</td>
-    <td><button class='btn btn-danger' v-bind:value='place.id' v-on:click="$emit('delete-place', $event.target.value)">Delete Place</button></td>
+    <td><button class='btn btn-danger' v-bind:value='place.id' v-on:click="$emit('remove-place', $event.target.value)">Remove Place</button></td>
   </tr>
   `,
 });

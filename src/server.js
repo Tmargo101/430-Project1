@@ -14,7 +14,9 @@ const urlStruct = {
     '/places.html': client.getPlacesPage,
     '/place.html': client.getPlacePage,
     '/addPlace.html': client.getAddPlacePage,
-    '/admin.html': client.getAdminPage,
+    '/addplace.html': client.getAddPlacePage,
+    '/removePlace.html': client.getRemovePlacePage,
+    '/removeplace.html': client.getRemovePlacePage,
     '/statusPage.html': client.getStatusPage,
     '/src/vueComponents.js': client.getVueComponents,
     '/src/main.js': client.getMainJS,
@@ -33,71 +35,33 @@ const urlStruct = {
 };
 
 const handlePost = (request, response, parsedUrl, params) => {
-  if (parsedUrl.pathname === '/add-place') {
-    const body = [];
+  const body = [];
 
-    // https://nodejs.org/api/http.html
-    request.on('error', (err) => {
-      console.dir(err);
-      response.statusCode = 400;
-      response.end();
-    });
+  // https://nodejs.org/api/http.html
+  request.on('error', (err) => {
+    console.dir(err);
+    response.statusCode = 400;
+    response.end();
+  });
 
-    request.on('data', (chunk) => {
-      body.push(chunk);
-    });
+  request.on('data', (chunk) => {
+    body.push(chunk);
+  });
 
-    request.on('end', () => {
-      const bodyString = Buffer.concat(body).toString();
-      const bodyParams = query.parse(bodyString);
+  request.on('end', () => {
+    const bodyString = Buffer.concat(body).toString();
+    const bodyParams = query.parse(bodyString);
+    if (parsedUrl.pathname === '/add-place') {
       responses.addPlace(request, response, bodyParams);
-    });
-  } else if (parsedUrl.pathname === '/update-place') {
-    const body = [];
-
-    // https://nodejs.org/api/http.html
-    request.on('error', (err) => {
-      console.dir(err);
-      response.statusCode = 400;
-      response.end();
-    });
-
-    request.on('data', (chunk) => {
-      body.push(chunk);
-    });
-
-    request.on('end', () => {
-      const bodyString = Buffer.concat(body).toString();
-      const bodyParams = query.parse(bodyString);
+    } else if (parsedUrl.pathname === '/update-place') {
       responses.updatePlace(request, response, bodyParams, params);
-    });
-  } else {
-    client.getErrorPage(request, response);
-  }
+    } else if (parsedUrl.pathname === '/remove-place') {
+      responses.removePlace(request, response, bodyParams, params);
+    } else {
+      client.getErrorPage(request, response);
+    }
+  });
 };
-
-// const handlePut = (request, response, parsedUrl) => {
-//   if (parsedUrl.pathname === '/add-place') {
-//     const body = [];
-//
-//     // https://nodejs.org/api/http.html
-//     request.on('error', (err) => {
-//       console.dir(err);
-//       response.statusCode = 400;
-//       response.end();
-//     });
-//
-//     request.on('data', (chunk) => {
-//       body.push(chunk);
-//     });
-//
-//     request.on('end', () => {
-//       const bodyString = Buffer.concat(body).toString();
-//       const bodyParams = query.parse(bodyString);
-//       responses.addPlace(request, response, bodyParams);
-//     });
-//   }
-// };
 
 const onRequest = (request, response) => {
   const parsedUrl = url.parse(request.url);
@@ -106,7 +70,7 @@ const onRequest = (request, response) => {
   let acceptedTypes = request.headers.accept && request.headers.accept.split(',');
   acceptedTypes = acceptedTypes || [];
 
-  if (request.method === 'POST' || request.method === 'PUT') {
+  if (request.method === 'POST' || request.method === 'PUT' || request.method === 'DELETE') {
     handlePost(request, response, parsedUrl, params);
     return; // bail out of function
   }

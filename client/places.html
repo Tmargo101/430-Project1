@@ -9,7 +9,7 @@
     <script src="//unpkg.com/vue@latest/dist/vue.min.js"></script>
     <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js"></script>
   
-  </head>
+  </head><a href="places.html">Link</a>
   <body>
     <div id="app">
       <nav-bar :title="appTitle"></nav-bar>     
@@ -80,7 +80,6 @@
             
             async updatePlace(placeID) {
               let url = `${this.api.base}${this.api.updatePlace}?placeID=${placeID}`;
-              console.log(url);
               
               const params = new URLSearchParams();
               params.append('notes', this.place.notes);

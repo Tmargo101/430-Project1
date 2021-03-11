@@ -2,7 +2,7 @@
 
 <html lang="en">
   <head>
-    <title>Admin</title>
+    <title>Remove Places</title>
     <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap/dist/css/bootstrap.min.css" />
     <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css" />
     
@@ -17,7 +17,7 @@
         <div class='row justify-content-center'>
           <h1 class="display-4 mb-5">{{pageTitle}}</h1>
         </div>
-        <admin-place-list v-bind:places="places" v-bind:title="pageTitle"></place-list>
+        <admin-place-list :places="places" :title="pageTitle" v-on:remove-place="removePlace($event);"></place-list>
       </div>
 
     </div>
@@ -28,12 +28,12 @@
         el: '#app',
         data: {
           appTitle: "Places To Eat",
-          pageTitle: "Delete Places",
+          pageTitle: "Remove Places",
           api: {
             base: "",
             getAllPlaces: "/get-all-places",
             getPlace: "/get-place",
-            deletePlace: "/delete-place",
+            removePlace: "/remove-place",
           },
           places: {},
         },
@@ -50,13 +50,16 @@
               this.places = json;
             });
           }, // end getAllPlaces
-          deletePlace(placeID) {
+          async removePlace(placeID) {
+            let url = `${this.api.base}${this.api.removePlace}?placeID=${placeID}`;
             const newDeleteRequest = {
               method: "DELETE",
+              headers: { "Content-Type": "application/x-www-form-urlencoded" },
               body: placeID
             }
-            fetch(`${this.api.base}${this.api.deletePlace}`, newDeleteRequest)
-              .then
+            const response = await fetch(url, newDeleteRequest)
+              .then(this.getAllPlaces());
+            
           }
         }, // end methods
         created() {
