@@ -14,6 +14,8 @@ const mainJS = fs.readFileSync(`${__dirname}/../client/src/main.js`);
 
 const icon = fs.readFileSync(`${__dirname}/../client/icon.png`);
 
+const css = fs.readFileSync(`${__dirname}/../client/styles.css`)
+
 const getHomePage = (request, response) => {
   response.writeHead(200, { 'Content-Type': 'text/html' });
   response.write(homePage);
@@ -74,6 +76,13 @@ const getIcon = (request, response) => {
   response.end();
 };
 
+const getCss = (request, response) => {
+  response.writeHead(200, { 'Content-Type': 'text/css' });
+  response.write(css);
+  response.end();
+};
+
+
 module.exports = {
   getHomePage,
   getPlacesPage,
@@ -85,4 +94,5 @@ module.exports = {
   getVueComponents,
   getMainJS,
   getIcon,
+  getCss,
 };

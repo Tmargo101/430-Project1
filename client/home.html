@@ -5,6 +5,7 @@
     <title>Home</title>
     <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap/dist/css/bootstrap.min.css" />
     <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css" />
+    <link rel="stylesheet" href="/styles.css"/>
     
     <script src="//unpkg.com/vue@latest/dist/vue.min.js"></script>
     <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js"></script>
@@ -45,6 +46,7 @@
           </ul>
           <p>A UUID is automatically generated for each new entry upon creation.</p>
           <h5>PUT Endpoint</h5>
+            <p>To update the notes for a place, use the <a href='/update-place'>/update-place</a> endpoint.  NOTE: The link here won't work.  The request must be a PUT, and provide a <code>placeID</code> parameter (UUID) in the URL.  The body must also contain a <code>note</code> parameter in the <code>application/x-www-form-urlencoded</code> format:</p>
           <h5>DELETE Endpoint</h5>
         </div>
       </div>

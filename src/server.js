@@ -19,6 +19,7 @@ const urlStruct = {
     '/src/vueComponents.js': client.getVueComponents,
     '/src/main.js': client.getMainJS,
     '/icon.png': client.getIcon,
+    '/styles.css': client.getCss,
     notFound: client.getErrorPage,
     // API Endpoints
     '/get-all-places': responses.getAllPlaces,
