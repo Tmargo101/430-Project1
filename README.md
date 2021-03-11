@@ -11,4 +11,4 @@ Setup
 Clone the Repository and run ```npm start```.
 
 ---
-Created to satisfy requirements for IGME-430 Project 1 [Link to project requirements](https://github.com/tonethar/IGME-430-Spring-2021/blob/main/projects/project-1.md).
+Created to satisfy all requirements for [IGME-430 Project 1](https://github.com/tonethar/IGME-430-Spring-2021/blob/main/projects/project-1.md).
