@@ -8,7 +8,9 @@ Server code is linted with [ESLint](https://eslint.org) to the [AirBnb config](h
 
 Setup
 -----
-Clone the Repository and run ```npm start```.
+1. Clone or download the Repository
+2. Install required dependencies: ```npm i```.
+3. Start the server: ```npm start```.
 
 Demo
 ----
