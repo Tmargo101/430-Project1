@@ -16,5 +16,10 @@ Demo
 ----
 Demo version of the app is hosted on Heroku at [the following link](https://txm5483-430-project1.herokuapp.com).
 
+API Tests created in Postman: 
+
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/adf210c76e53d5889b98)
+
+
 ---
 Created to satisfy all requirements for [IGME-430 Project 1](https://github.com/tonethar/IGME-430-Spring-2021/blob/main/projects/project-1.md).
