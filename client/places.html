@@ -92,9 +92,10 @@
               
               
               const response = await fetch(url, newPutRequest)
-                .then(this.getPlace(placeID))
-                .then(this.getAllPlaces());
-              // this.getAllPlaces();
+                .then(response => {
+                  this.getPlace(placeID);
+                  this.getAllPlaces();
+                })
               
               // const responseData = await response.json();
               // console.log(responseData);

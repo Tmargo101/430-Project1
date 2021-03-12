@@ -58,7 +58,10 @@
               body: placeID
             }
             const response = await fetch(url, newDeleteRequest)
-              .then(this.getAllPlaces());
+              .then(response => {
+                this.getAllPlaces();
+              })
+
             
           }
         }, // end methods
