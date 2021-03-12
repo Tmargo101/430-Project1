@@ -6,6 +6,14 @@
 
 
 
+## Links
+
+[GitHub Link](https://github.com/Tmargo101/430-Project1) 
+
+[Heroku Link](https://txm5483-430-project1.herokuapp.com)
+
+
+
 ## What does the site do?
 
 This site is a shared list of restaurant reccomendations.  I will be expanding greatly upon this in Project 2, but for now this is a good proof-of-concept for the basic functionality I would like to implement.  Users are able to add reccomendations, along with an address, who reccomended this place (Autofills the name you add on the homepage, but you can use a different name if you wish), and any notes.  The 'Notes' field is where users can explain why they like the place, any items on the menu that they like, or store group orders for that place.
