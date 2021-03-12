@@ -122,7 +122,7 @@ Vue.component('place-info', {
       <div class='col-11'>
         <h4>Notes:</h4>
         <textarea rows='6' class='form-control' v-model='place.notes' v-on:input='allowUpdate = true;'></textarea>
-        <button class='btn btn-primary mt-3' :disabled='!allowUpdate' :class='allowUpdate === true ? "btn-primary" : "btn-light"' v-bind:value='place.id' @click='$emit("update-place", $event.target.value)'>Save Changes</button>
+        <button class='btn btn-primary mt-3' :disabled='!allowUpdate' :class='allowUpdate === true ? "btn-primary" : "btn-light"' v-bind:value='place.id' @click='$emit("update-place", $event.target.value); allowUpdate = false;'>Save Changes</button>
       </div>
     </div>
     
