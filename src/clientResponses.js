@@ -5,7 +5,6 @@ const errorPage = fs.readFileSync(`${__dirname}/../client/error.html`);
 
 const homePage = fs.readFileSync(`${__dirname}/../client/home.html`);
 const placesPage = fs.readFileSync(`${__dirname}/../client/places.html`);
-const placePage = fs.readFileSync(`${__dirname}/../client/place.html`);
 const addPlacePage = fs.readFileSync(`${__dirname}/../client/addPlace.html`);
 const removePlacePage = fs.readFileSync(`${__dirname}/../client/removePlace.html`);
 
@@ -25,12 +24,6 @@ const getHomePage = (request, response) => {
 const getPlacesPage = (request, response) => {
   response.writeHead(200, { 'Content-Type': 'text/html' });
   response.write(placesPage);
-  response.end();
-};
-
-const getPlacePage = (request, response) => {
-  response.writeHead(200, { 'Content-Type': 'text/html' });
-  response.write(placePage);
   response.end();
 };
 
@@ -85,7 +78,6 @@ const getCss = (request, response) => {
 module.exports = {
   getHomePage,
   getPlacesPage,
-  getPlacePage,
   getAddPlacePage,
   getRemovePlacePage,
   getStatusPage,

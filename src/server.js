@@ -12,7 +12,6 @@ const urlStruct = {
     // Client Pages
     '/': client.getHomePage,
     '/places.html': client.getPlacesPage,
-    '/place.html': client.getPlacePage,
     '/addPlace.html': client.getAddPlacePage,
     '/addplace.html': client.getAddPlacePage,
     '/removePlace.html': client.getRemovePlacePage,
